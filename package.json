@@ -1,11 +1,7 @@
 {
-  "name": "nodemailer-gcp-application-default",
+  "name": "nodejs-gcp-dwd-with-default-creds",
   "version": "1.0.0",
-  "description": "A nodemailer example showing how to authenticate with GCP Application Default Credentials",
-  "main": "sendmail.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "A NodeJS implementation that allows G-Suite services to be accessed using domain wide delegation whilst using GCP default credentials (No distribution of a service account private key)",
   "author": "Leon Topliss",
   "license": "Apache-2.0",
   "dependencies": {
