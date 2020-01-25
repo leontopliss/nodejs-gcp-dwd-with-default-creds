@@ -119,8 +119,8 @@ async function getSignedJwt(sub, scopes, expiresInMins) {
         scopes: ['https://www.googleapis.com/auth/iam']
 	});
 	
-    // Get the application default service account we are running under
-    const creds = await authClient.getCredentials();
+	// Get the application default service account we are running under
+	const creds = await authClient.getCredentials();
 	const service_account = creds.client_email;
 
 	// Create a JWT with the required subject and scopes
@@ -154,7 +154,7 @@ async function getAccessToken(sub, scope, expiresInMins=60) {
 	// Exchange the signed JWT for an access token
 	const token = await getAccessTokenFromJWT(signedJwt);
 
-    return token;
+	return token;
 }
 
 /**
@@ -174,7 +174,7 @@ async function getAuthClient(sub, scopes, expiresInMins=60) {
 	const oauth2Client = new google.auth.OAuth2();
 	oauth2Client.setCredentials(token);
 	
-    return oauth2Client;
+	return oauth2Client;
 }
 
 module.exports = {
