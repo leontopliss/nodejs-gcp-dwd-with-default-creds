@@ -89,14 +89,14 @@ async function getAccessTokenFromJWT(signedJwt) {
 	};
 	let data = {
 		grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-        assertion: signedJwt,
-    };
+		assertion: signedJwt,
+	};
 	const res = await googleClient.request({
-        url: url,
-        headers: headers,
-        data: data,
-        method: 'POST'
-    });
+		url: url,
+		headers: headers,
+		data: data,
+		method: 'POST'
+	});
 	
 	return res.data;
 }
