@@ -1,7 +1,6 @@
-# Domain Wide Delegation using GCP Default Credentials
+# Domain Wide Delegation using NodeJS and GCP Default Credentials
 
-Domain Wide Delegation using NodeJS and GCP default credentials.
-Leon Topliss (2020)
+Domain Wide Delegation using NodeJS and GCP default credentials. Leon Topliss (2020)
 
 ## Introduction
 
