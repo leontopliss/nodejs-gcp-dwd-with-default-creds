@@ -15,7 +15,7 @@ All domain wide delegation examples show the use of a private key and using that
 
 Rather than distribute a private key it's possible to use the [signBlob](https://cloud.google.com/iam/docs/reference/rest/v1/projects.serviceAccounts/signBlob) service giving default credentials access to this service.
 
-The GCP Python auth libary includes this functionality and use of this has been documented [here](https://github.com/GoogleCloudPlatform/professional-services/tree/master/examples/gce-to-adminsdk)
+The GCP Python auth library includes this functionality and use of this has been documented [here](https://github.com/GoogleCloudPlatform/professional-services/tree/master/examples/gce-to-adminsdk)
 
 This repository implements equivalent functionality for NodeJS
 
