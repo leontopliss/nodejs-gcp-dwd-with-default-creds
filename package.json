@@ -1,0 +1,15 @@
+{
+  "name": "nodemailer-gcp-application-default",
+  "version": "1.0.0",
+  "description": "A nodemailer example showing how to authenticate with GCP Application Default Credentials",
+  "main": "sendmail.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Leon Topliss",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "googleapis": "^47.0.0",
+    "nodemailer": "^6.4.2"
+  }
+}
