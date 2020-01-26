@@ -116,7 +116,7 @@ async function getSignedJwt(sub, scopes, expiresInMins) {
 	// as we use this to contact IAM signBlob to get
 	// a token with the scopes we require
 	const authClient = new google.auth.GoogleAuth({
-        scopes: ['https://www.googleapis.com/auth/iam']
+		scopes: ['https://www.googleapis.com/auth/iam']
 	});
 	
 	// Get the application default service account we are running under
