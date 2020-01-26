@@ -15,6 +15,7 @@
  *
  */
 const {google} = require('googleapis');
+const fs = require('fs');
 
 /**
  * Base64 Encode and make URL Safe a string that is passed in
@@ -139,20 +140,54 @@ async function getSignedJwt(sub, scopes, expiresInMins) {
 
 /**
  * Get a OAuth Access token
+ * If running in GCP this will attempt to use default credentials
+ * For use outside of GCP ensure the environment variable GOOGLE_APPLICATION_CREDENTIALS
+ * is set with the location of the private key JSON file
  *  
  *  @param {String} sub The subject typically the user we are impersonating
  *  @param {Array} scopes A array of scopes we need access too
  *  e.g. ['mail.google.com','https://www.googleapis.com/auth/drive']
- *  @param {String} expiresInMins When the access should expire in mins
  *  @returns {Object} An object contiaing an access token
  *  and expiry infomation
  */
-async function getAccessToken(sub, scope, expiresInMins=60) {
-	// Get at a signed JWT
-	const signedJwt = await getSignedJwt(sub, scope, expiresInMins);
-  
-	// Exchange the signed JWT for an access token
-	const token = await getAccessTokenFromJWT(signedJwt);
+async function getAccessToken(sub, scopes) {
+
+	// Determine if we are running in GCP
+	const gcpEnviroment = await google.auth.getEnv()
+
+	let token;
+	// If we are running in GCP use a default service account
+	// If not in GCP the GOOGLE_APPLICATION_CREDENTIALS environment variable 
+	// should be set to point the the location of the private key
+	if (gcpEnviroment) {
+		// Running in GCP
+
+		// Get at a signed JWT
+		const signedJwt = await getSignedJwt(sub, scopes, 60);
+	
+		// Exchange the signed JWT for an access token
+		token = await getAccessTokenFromJWT(signedJwt);
+	} else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+		// Running outside GCP with a private key
+
+		// Open the JSON Key
+		const credentialsFile = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+		let credentials = JSON.parse(fs.readFileSync(credentialsFile));
+
+		// Use the JSON Key but change the subject
+		var authClient = new google.auth.JWT(
+			credentials.client_email,
+			null,
+			credentials.private_key,
+			scopes,
+			sub
+		);
+
+		// Exchange the signed JWT for an access token
+		token = await authClient.authorize();
+	} else {
+		throw('Not running in GCP so unable to use a default service account and unable a keyfile')
+	}
 
 	return token;
 }
@@ -163,12 +198,12 @@ async function getAccessToken(sub, scope, expiresInMins=60) {
  *  @param {String} sub The subject typically the user we are impersonating
  *  @param {Array} scopes A array of scopes we need access too
  *  e.g. ['mail.google.com','https://www.googleapis.com/auth/drive']
- *  @param {String} expiresInMins When the access should expire in mins
  *  @returns {instance} An authenticated instance of the Google Client
  */
-async function getAuthClient(sub, scopes, expiresInMins=60) {
-	// Create a Google Auth Client const 
-	token = await getAccessToken(sub, scopes, expiresInMins)
+async function getAuthClient(sub, scopes) {
+	
+	// Get an OAuth2 access token
+	token = await getAccessToken(sub, scopes)
 
 	// Use the token to create a google auth client
 	const oauth2Client = new google.auth.OAuth2();

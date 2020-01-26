@@ -31,7 +31,9 @@ This repository implements equivalent functionality for NodeJS
 
 defaultcreddelegation.js contains the code for retrieving an access token, or authenticated GCP client
 
-Use of this is demonstrated with two examples
+If using outside GCP for example on a development machine (where default credentials are not avaliable) defaultcreddelegation.js will fall back to using a JSON key file. The location of this file should be specified in the OS environment variable GOOGLE_APPLICATION_CREDENTIALS. Whilst running in GCP defaultcreddelegation.js will always attempt to use default credentials
+
+Use of this is demonstrated with two examples:
 
 ### Send a email using Node Mailer, Gmail API's using OAuth and GCP Default Credentials
 
@@ -47,6 +49,6 @@ node sendmail.js <sender> <recipient>
 This example will upload a basic file to Google Drive
 
 ``` 
-# The owner
+# The owner of the file should be their G-Suite primary email
 node driveupload.js <owner> 
 ```

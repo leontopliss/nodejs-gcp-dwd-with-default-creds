@@ -105,3 +105,6 @@ dist
 
 # IDE
 .vs/
+
+# Private Key for testing local fallback
+privatekey.json
